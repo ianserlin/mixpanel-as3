@@ -3,6 +3,8 @@ package com.mixpanel
 	import com.adobe.serialization.json.JSONEncoder;
 	
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.SharedObject;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
@@ -277,7 +279,12 @@ package com.mixpanel
 						callback(loader.data);
 					}
 				});
-			
+			loader.addEventListener(IOErrorEvent.IO_ERROR, function( e:IOErrorEvent ):void {
+				trace( "c'mon, you really should handle this error and communicate it back to client code somehow" );
+			});
+			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function( e:SecurityErrorEvent ):void {
+				trace( "c'mon, you really should handle this error and communicate it back to client code somehow" );
+			});
 			loader.load(request);
 		};
 	}
